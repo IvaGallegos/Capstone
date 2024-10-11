@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas - Ajedrez App</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <style>
+        .opening-list {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container my-5">
+        <h1 class="text-center">Aperturas de Ajedrez</h1>
+        <div class="opening-list" id="opening-list">
+            <!-- Las aperturas se cargarán aquí -->
+        </div>
+    </div>
+
+    <script>
+        // Cambia la ruta al archivo JSON según la estructura de tu proyecto
+        fetch('{% static "chessapp/aperturas.json" %}')
+
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                const openingList = document.getElementById('opening-list');
+                const list = document.createElement('ul');
+
+                // Cambia esta línea para usar la propiedad correcta del JSON
+                data.forEach(opening => {
+                    const listItem = document.createElement('li');
+                    listItem.innerText = `Apertura: ${opening.name} - ECO: ${opening.eco} - PGN: ${opening.pgn}`;
+                    list.appendChild(listItem);
+                });
+
+                openingList.appendChild(list);
+            })
+            .catch(error => console.error('Error al cargar el archivo JSON:', error));
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
+
