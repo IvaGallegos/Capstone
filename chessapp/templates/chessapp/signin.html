@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="es">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="{% static 'chessapp/funciones.js' %}"></script>
+
+    <title>Registro</title>
+    <style>
+        body {
+            background-image: url("{% static 'chessapp/images/fondochess.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            text-align: center;
+            margin: 30px 0;
+            font-size: 2.5rem;
+        }
+
+        .form-container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 400px;
+            margin: auto;
+        }
+
+        input {
+            margin-bottom: 15px;
+        }
+
+        button {
+            width: 100%;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+<script>
+    const firebaseApp = firebase.initializeApp({
+        apiKey: "AIzaSyB2_bx_Cik5pDrL5GhS5mSUMve13BLtqV0",
+        authDomain: "chess-8911b.firebaseapp.com",
+        projectId: "chess-8911b",
+        storageBucket: "chess-8911b.appspot.com",
+        messagingSenderId: "928989868620",
+        appId: "1:928989868620:web:07ff1cc1c2ff08e382fae9",
+        measurementId: "G-3LHBN4WTVE"
+    });
+    const db = firebaseApp.firestore();
+    const auth = firebaseApp.auth();
+
+    // Funcion para registro en firebase
+    function register() {
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const errorMessage = document.getElementById("error-message");
+
+        errorMessage.textContent = ""; // Limpiar mensajes de error
+
+        if (name === "") {
+            errorMessage.textContent = "Por favor, ingrese su nombre";
+            return;
+        }
+
+        var emailPattern = /[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,3}$/;
+        if (!emailPattern.test(email)) {
+            errorMessage.textContent = "Por favor, ingrese un correo electrónico válido";
+            return;
+        }
+
+        var passwordPattern = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}/;
+        if (!passwordPattern.test(password)) {
+            errorMessage.textContent = "La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un número";
+            return;
+        }
+
+        // Deshabilitar el botón para evitar múltiples envíos
+        document.getElementById("register-button").disabled = true;
+
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            var user = userCredential.user;
+            alert("Usuario registrado con éxito: " + user.email);
+            // Redirigir a la página de perfil en lugar del menú
+            window.location.href = "/perfil/";
+        })
+        .catch((error) => {
+            var errorMessage = error.message;
+            alert("Error: " + errorMessage);
+        })
+        .finally(() => {
+            // Habilitar el botón nuevamente
+            document.getElementById("register-button").disabled = false;
+        });
+    }
+</script>
+
+<header>
+    <h1>Registro</h1>
+</header>
+
+<div class="form-container">
+    <form onsubmit="event.preventDefault(); register();">
+        <input type="text" id="name" name="name" class="form-control" placeholder="Nombre" required>
+        <input type="email" id="email" name="email" class="form-control" placeholder="Correo electrónico" required>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña" required>
+        <div id="error-message" class="error-message"></div> <!-- Mensaje de error -->
+        <button type="submit" class="btn btn-primary" id="register-button">Registrarse</button>
+        <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'home' %}'">Inicio</button>
+    </form>
+</div>
+
+</body>
+</html>
+
+
+
+
