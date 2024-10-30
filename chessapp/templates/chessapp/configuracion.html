@@ -19,6 +19,12 @@
             color: #EB4C49;
         }
 
+        .modo-luna-btn {
+            background-color: #000;
+            color: #EB4C49;
+            border: 2px solid #EB4C49;
+        }
+
         .menu-header {
             text-align: center;
             margin: 30px 0;
@@ -67,7 +73,7 @@
     <a class="menu-button btn">Resaltar Movimiento</a>
     <a class="menu-button btn">Sonido</a>
     <a class="menu-button btn">Idioma</a>
-    <button class="menu-button btn" aria-label="Contraste" role="switch" onclick="toggleLook()">Modo Contraste</button>
+    <button class="menu-button btn" id="contrastButton" aria-label="Contraste" role="switch" onclick="toggleLook()">Modo Contraste</button>
     <a class="btn btn-secondary mx-2" href="{% url 'menu' %}">Menú</a>
 </div>
 
@@ -91,21 +97,22 @@
     const db = firebaseApp.firestore();
     const auth = firebaseApp.auth();
 
-    // Lógica de contraste
-    const body = document.body;
-    if (localStorage.mode === 'dark') {
-        body.classList.add("modo-luna");
+    // Lógica de contraste solo para el botón
+    const contrastButton = document.getElementById("contrastButton");
+    if (localStorage.buttonMode === 'dark') {
+        contrastButton.classList.add("modo-luna-btn");
     }
 
     function toggleLook() {
-        body.classList.toggle("modo-luna");
+        contrastButton.classList.toggle("modo-luna-btn");
         localStorage.setItem(
-            'mode', localStorage.mode === 'light' || localStorage.mode === undefined ? 'dark' : 'light'
+            'buttonMode', localStorage.buttonMode === 'light' || localStorage.buttonMode === undefined ? 'dark' : 'light'
         );
     }
 </script>
 </body>
 </html>
+
 
 
 

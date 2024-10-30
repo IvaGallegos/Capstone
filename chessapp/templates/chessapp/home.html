@@ -1,14 +1,28 @@
-
-{% load static %}
 <!DOCTYPE html>
+{% load static %}
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajedrez App - Inicio</title>
-    <link rel="stylesheet" href="{% static 'chessapp/styles.css' %}"> 
-
+    
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="{% static 'chessapp/styles.css' %}">
+    
+    <style>
+        /* Estilo de alto contraste */
+        .alto-contraste {
+            background-color: black;
+            color: white;
+        }
+        
+        /* Estilo de escala de grises */
+        .modo-gris {
+            filter: grayscale(100%);
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -20,13 +34,26 @@
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Inicio</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'partidas_en_vivo' %}">Partidas en Vivo</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'tutoriales' %}">Tutoriales</a></li>                
+                <li class="nav-item"><a class="nav-link" href="{% url 'tutoriales' %}">Tutoriales</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'contacto' %}">Contáctanos</a></li>
             </ul>
-            <!-- Botones para acciones -->
-            <div class="Botones_1">
+
+            <!-- Botones de ingreso y registro -->
+            <div class="btn-group">
                 <a class="btn btn-primary mx-2" href="{% url 'login' %}">Ingresar</a>
                 <a class="btn btn-secondary mx-2" href="{% url 'signin' %}">Registrarse</a>
+            </div>
+            
+            <!-- Menú desplegable de Accesibilidad -->
+            <div class="btn-group">
+                <button type="button" class="btn btn-secondary dropdown-toggle" id="accesibilidadButton" aria-haspopup="true" aria-expanded="false">
+                    Accesibilidad
+                </button>
+                <div class="dropdown-menu dropdown-menu-right p-3" id="accesibilidadMenu" style="min-width: 200px; display: none;">
+                    <button class="btn btn-outline-primary btn-block mb-2" onclick="cambiarTamanoFuente('aumentar')">Aumentar Fuente</button>
+                    <button class="btn btn-outline-primary btn-block mb-2" onclick="cambiarTamanoFuente('disminuir')">Disminuir Fuente</button>
+                    <button class="btn btn-outline-primary btn-block mb-2" onclick="toggleAltoContraste()">Alto Contraste</button>
+                </div>
             </div>
         </div>
     </nav>
@@ -62,7 +89,7 @@
                 <span class="carousel-control-next-icon"></span>
             </a>
         </div>
-        
+
     </header>
 
     <div class="container my-5">
@@ -115,9 +142,32 @@
         <p>&copy; 2024 Ajedrez Online. Todos los derechos reservados.</p>
     </footer>
 
+    <script>
+        const accesibilidadButton = document.getElementById('accesibilidadButton');
+        const accesibilidadMenu = document.getElementById('accesibilidadMenu');
+
+        accesibilidadButton.addEventListener('click', () => {
+            if (accesibilidadMenu.style.display === "none" || !accesibilidadMenu.style.display) {
+                accesibilidadMenu.style.display = "block";
+            } else {
+                accesibilidadMenu.style.display = "none";
+            }
+        });
+
+        function cambiarTamanoFuente(accion) {
+            const html = document.documentElement;
+            const currentSize = parseFloat(window.getComputedStyle(html).fontSize);
+            html.style.fontSize = accion === 'aumentar' ? `${currentSize * 1.1}px` : `${currentSize / 1.1}px`;
+        }
+
+        function toggleAltoContraste() {
+            document.body.classList.toggle('alto-contraste');
+            document.body.classList.toggle('modo-gris');
+        }
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU0T8RDE8m4Njh4a1h0L4zR9b/7dJcv/8A3hYXcOTe7gVn/U2" crossorigin="anonymous"></script>
 </body>
 </html>
-
 

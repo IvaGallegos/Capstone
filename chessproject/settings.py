@@ -27,6 +27,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_URL = 'login'  # Asegúrate de que este nombre coincida con tu URL de inicio de sesión
+LOGIN_REDIRECT_URL = 'perfil'  # Redirige al perfil después de iniciar sesión
+
+
+
 
 # Application definition
 

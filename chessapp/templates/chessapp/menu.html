@@ -92,6 +92,26 @@
     <a href="{% url 'perfil' %}" class="menu-button btn">Perfil</a>
     <button class="menu-button btn logout-button" onclick="logout()">Cerrar Sesión</button>
 </div>
+<script type="text/javascript">
+	// Función para cambiar el tamaño de la fuente
+	function cambiarTamanoFuente(accion) {
+		const body = document.body;
+		const currentFontSize = window.getComputedStyle(body, null).getPropertyValue('font-size');
+		const currentSize = parseFloat(currentFontSize);
+
+		if (accion === 'aumentar') {
+			body.style.fontSize = (currentSize + 2) + 'px';
+		} else if (accion === 'disminuir') {
+			body.style.fontSize = (currentSize - 2) + 'px';
+		}
+	}
+
+	// Función para alternar el alto contraste
+    function toggleAltoContraste() {
+        const html = document.documentElement; // Selecciona el elemento <html>
+        html.classList.toggle("modo-gris"); // Activa o desactiva la clase de escala de grises
+    }
+</script>
 
 
 

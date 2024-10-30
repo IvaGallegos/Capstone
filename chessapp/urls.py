@@ -1,9 +1,10 @@
+from django.contrib import admin
 from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.home, name='home'),  
-    path('login/', views.login_view, name='login'),
+    path('', views.home, name='home'),
+    path('login/', views.login_view, name='login'),  
     path('menu/', views.menu, name='menu'),
     path('signin/', views.signin, name='signin'),
     path('tablero/', views.tablero, name='tablero'),
@@ -15,4 +16,3 @@ urlpatterns = [
     path('configuracion/', views.configuracion, name='configuracion'),
     path('perfil/', views.perfil, name='perfil'),
 ]
-# 
